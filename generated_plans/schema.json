@@ -1,0 +1,81 @@
+{
+  "construction": {
+    "Products": {
+      "type": "node",
+      "source": "data/products.csv",
+      "label": "Products",
+      "id_column": "product_id",
+      "properties": [
+        "product_name",
+        "price",
+        "description",
+        "product_id"
+      ]
+    },
+    "Parts": {
+      "type": "node",
+      "source": "data/parts.csv",
+      "label": "Parts",
+      "id_column": "part_id",
+      "properties": [
+        "part_id",
+        "part_name",
+        "quantity",
+        "assembly_id"
+      ]
+    },
+    "Suppliers": {
+      "type": "node",
+      "source": "data/suppliers.csv",
+      "label": "Suppliers",
+      "id_column": "supplier_id",
+      "properties": [
+        "supplier_id",
+        "name",
+        "specialty",
+        "city",
+        "country",
+        "website",
+        "contact_email"
+      ]
+    },
+    "Part_supplier_mapping": {
+      "type": "node",
+      "source": "data/part_supplier_mapping.csv",
+      "label": "Part_supplier_mapping",
+      "id_column": "part_id",
+      "properties": [
+        "part_id",
+        "part_name",
+        "supplier_id",
+        "supplier_name",
+        "lead_time_days",
+        "unit_cost",
+        "minimum_order_quantity",
+        "preferred_supplier"
+      ]
+    }
+  },
+  "extraction": {
+    "entity_types": [
+      "Product",
+      "Issue",
+      "Feature",
+      "User"
+    ],
+    "fact_types": {
+      "has_issue": {
+        "subject": "Product",
+        "object": "Issue"
+      },
+      "includes_feature": {
+        "subject": "Product",
+        "object": "Feature"
+      },
+      "reviewed_by": {
+        "subject": "Product",
+        "object": "User"
+      }
+    }
+  }
+}

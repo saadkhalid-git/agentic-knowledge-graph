@@ -1,0 +1,105 @@
+{
+  "approved_csv_files": [
+    "/Users/saad.khalid/Documents/agentic-kg-workshop/data/part_supplier_mapping.csv",
+    "/Users/saad.khalid/Documents/agentic-kg-workshop/data/products.csv",
+    "/Users/saad.khalid/Documents/agentic-kg-workshop/data/parts.csv",
+    "/Users/saad.khalid/Documents/agentic-kg-workshop/data/suppliers.csv",
+    "/Users/saad.khalid/Documents/agentic-kg-workshop/data/assemblies.csv"
+  ],
+  "approved_text_files": [
+    "/Users/saad.khalid/Documents/agentic-kg-workshop/data/product_reviews/stockholm_chair_reviews.md",
+    "/Users/saad.khalid/Documents/agentic-kg-workshop/data/product_reviews/linkoping_bed_reviews.md",
+    "/Users/saad.khalid/Documents/agentic-kg-workshop/data/product_reviews/norrkoping_nightstand_reviews.md",
+    "/Users/saad.khalid/Documents/agentic-kg-workshop/data/product_reviews/jonkoping_coffee_table_reviews.md",
+    "/Users/saad.khalid/Documents/agentic-kg-workshop/data/product_reviews/orebro_lamp_reviews.md",
+    "/Users/saad.khalid/Documents/agentic-kg-workshop/data/product_reviews/vasteras_bookshelf_reviews.md",
+    "/Users/saad.khalid/Documents/agentic-kg-workshop/data/product_reviews/malmo_desk_reviews.md",
+    "/Users/saad.khalid/Documents/agentic-kg-workshop/data/product_reviews/gothenburg_table_reviews.md",
+    "/Users/saad.khalid/Documents/agentic-kg-workshop/data/product_reviews/helsingborg_dresser_reviews.md",
+    "/Users/saad.khalid/Documents/agentic-kg-workshop/data/product_reviews/uppsala_sofa_reviews.md"
+  ],
+  "csv_analysis": [
+    {
+      "file": "/Users/saad.khalid/Documents/agentic-kg-workshop/data/part_supplier_mapping.csv",
+      "score": 1.0,
+      "reason": "Filename contains entity 'supplier'; Has column related to 'supplier'; Filename contains entity 'part'; Has column related to 'part'; Contains ID columns: part_id, supplier_id; Appears to contain relationship data"
+    },
+    {
+      "file": "/Users/saad.khalid/Documents/agentic-kg-workshop/data/products.csv",
+      "score": 0.7,
+      "reason": "Filename contains entity 'product'; Has column related to 'product'; Contains ID columns: product_id"
+    },
+    {
+      "file": "/Users/saad.khalid/Documents/agentic-kg-workshop/data/parts.csv",
+      "score": 0.7,
+      "reason": "Filename contains entity 'part'; Has column related to 'part'; Contains ID columns: part_id, assembly_id"
+    },
+    {
+      "file": "/Users/saad.khalid/Documents/agentic-kg-workshop/data/suppliers.csv",
+      "score": 0.7,
+      "reason": "Filename contains entity 'supplier'; Has column related to 'supplier'; Contains ID columns: supplier_id"
+    },
+    {
+      "file": "/Users/saad.khalid/Documents/agentic-kg-workshop/data/assemblies.csv",
+      "score": 0.4,
+      "reason": "Has column related to 'product'; Contains ID columns: assembly_id, product_id"
+    }
+  ],
+  "text_analysis": [
+    {
+      "file": "/Users/saad.khalid/Documents/agentic-kg-workshop/data/product_reviews/stockholm_chair_reviews.md",
+      "score": 0.4,
+      "reason": "Contains entities: part; Structured review data with ratings"
+    },
+    {
+      "file": "/Users/saad.khalid/Documents/agentic-kg-workshop/data/product_reviews/linkoping_bed_reviews.md",
+      "score": 0.4,
+      "reason": "Contains entities: part; Structured review data with ratings"
+    },
+    {
+      "file": "/Users/saad.khalid/Documents/agentic-kg-workshop/data/product_reviews/norrkoping_nightstand_reviews.md",
+      "score": 0.2,
+      "reason": "Structured review data with ratings"
+    },
+    {
+      "file": "/Users/saad.khalid/Documents/agentic-kg-workshop/data/product_reviews/jonkoping_coffee_table_reviews.md",
+      "score": 0.2,
+      "reason": "Structured review data with ratings"
+    },
+    {
+      "file": "/Users/saad.khalid/Documents/agentic-kg-workshop/data/product_reviews/orebro_lamp_reviews.md",
+      "score": 0.2,
+      "reason": "Structured review data with ratings"
+    },
+    {
+      "file": "/Users/saad.khalid/Documents/agentic-kg-workshop/data/product_reviews/vasteras_bookshelf_reviews.md",
+      "score": 0.2,
+      "reason": "Structured review data with ratings"
+    },
+    {
+      "file": "/Users/saad.khalid/Documents/agentic-kg-workshop/data/product_reviews/malmo_desk_reviews.md",
+      "score": 0.2,
+      "reason": "Structured review data with ratings"
+    },
+    {
+      "file": "/Users/saad.khalid/Documents/agentic-kg-workshop/data/product_reviews/gothenburg_table_reviews.md",
+      "score": 0.2,
+      "reason": "Structured review data with ratings"
+    },
+    {
+      "file": "/Users/saad.khalid/Documents/agentic-kg-workshop/data/product_reviews/helsingborg_dresser_reviews.md",
+      "score": 0.2,
+      "reason": "Structured review data with ratings"
+    },
+    {
+      "file": "/Users/saad.khalid/Documents/agentic-kg-workshop/data/product_reviews/uppsala_sofa_reviews.md",
+      "score": 0.2,
+      "reason": "Structured review data with ratings"
+    }
+  ],
+  "rejected_csv": [],
+  "rejected_text": [],
+  "selection_threshold": 0.15,
+  "total_selected": 15,
+  "total_rejected": 0
+}

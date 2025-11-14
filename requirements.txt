@@ -1,0 +1,27 @@
+# Core ADK Pipeline Requirements
+
+# Google ADK and dependencies
+google-adk==1.5.0
+
+# Neo4j and Graph RAG
+neo4j==5.28.1
+neo4j-graphrag==1.7.0
+
+# LLM providers
+openai==1.93.0
+litellm==1.73.6
+
+# NLP processing
+spacy==3.8.7
+
+# Data processing
+pandas==2.3.0
+pyyaml==6.0.2
+
+# Utilities
+python-dotenv==1.1.1
+ipykernel==6.29.5
+
+# Optional: For data generation and processing
+faker==37.4.0
+clevercsv==0.8.3

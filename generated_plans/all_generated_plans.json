@@ -1,0 +1,234 @@
+{
+  "goal": {
+    "kind_of_graph": "production management",
+    "description": "A comprehensive graph connecting Product, Supplier, Part. with relationships showing Links between part and supplier and mapping. Enhanced with customer reviews. to analyze quality issues, customer satisfaction. Optimizes production flow, quality control, and inventory management",
+    "primary_entities": [
+      "Product",
+      "Supplier",
+      "Part"
+    ],
+    "content_sources": [
+      "customer reviews"
+    ],
+    "expected_insights": [
+      "quality issues, customer satisfaction"
+    ],
+    "timestamp": "2024-01-01T00:00:00"
+  },
+  "file_selection": {
+    "approved_csv_files": [
+      "/Users/saad.khalid/Documents/agentic-kg-workshop/data/part_supplier_mapping.csv",
+      "/Users/saad.khalid/Documents/agentic-kg-workshop/data/products.csv",
+      "/Users/saad.khalid/Documents/agentic-kg-workshop/data/parts.csv",
+      "/Users/saad.khalid/Documents/agentic-kg-workshop/data/suppliers.csv",
+      "/Users/saad.khalid/Documents/agentic-kg-workshop/data/assemblies.csv"
+    ],
+    "approved_text_files": [
+      "/Users/saad.khalid/Documents/agentic-kg-workshop/data/product_reviews/stockholm_chair_reviews.md",
+      "/Users/saad.khalid/Documents/agentic-kg-workshop/data/product_reviews/linkoping_bed_reviews.md",
+      "/Users/saad.khalid/Documents/agentic-kg-workshop/data/product_reviews/norrkoping_nightstand_reviews.md",
+      "/Users/saad.khalid/Documents/agentic-kg-workshop/data/product_reviews/jonkoping_coffee_table_reviews.md",
+      "/Users/saad.khalid/Documents/agentic-kg-workshop/data/product_reviews/orebro_lamp_reviews.md",
+      "/Users/saad.khalid/Documents/agentic-kg-workshop/data/product_reviews/vasteras_bookshelf_reviews.md",
+      "/Users/saad.khalid/Documents/agentic-kg-workshop/data/product_reviews/malmo_desk_reviews.md",
+      "/Users/saad.khalid/Documents/agentic-kg-workshop/data/product_reviews/gothenburg_table_reviews.md",
+      "/Users/saad.khalid/Documents/agentic-kg-workshop/data/product_reviews/helsingborg_dresser_reviews.md",
+      "/Users/saad.khalid/Documents/agentic-kg-workshop/data/product_reviews/uppsala_sofa_reviews.md"
+    ],
+    "csv_analysis": [
+      {
+        "file": "/Users/saad.khalid/Documents/agentic-kg-workshop/data/part_supplier_mapping.csv",
+        "score": 1.0,
+        "reason": "Filename contains entity 'supplier'; Has column related to 'supplier'; Filename contains entity 'part'; Has column related to 'part'; Contains ID columns: part_id, supplier_id; Appears to contain relationship data"
+      },
+      {
+        "file": "/Users/saad.khalid/Documents/agentic-kg-workshop/data/products.csv",
+        "score": 0.7,
+        "reason": "Filename contains entity 'product'; Has column related to 'product'; Contains ID columns: product_id"
+      },
+      {
+        "file": "/Users/saad.khalid/Documents/agentic-kg-workshop/data/parts.csv",
+        "score": 0.7,
+        "reason": "Filename contains entity 'part'; Has column related to 'part'; Contains ID columns: part_id, assembly_id"
+      },
+      {
+        "file": "/Users/saad.khalid/Documents/agentic-kg-workshop/data/suppliers.csv",
+        "score": 0.7,
+        "reason": "Filename contains entity 'supplier'; Has column related to 'supplier'; Contains ID columns: supplier_id"
+      },
+      {
+        "file": "/Users/saad.khalid/Documents/agentic-kg-workshop/data/assemblies.csv",
+        "score": 0.4,
+        "reason": "Has column related to 'product'; Contains ID columns: assembly_id, product_id"
+      }
+    ],
+    "text_analysis": [
+      {
+        "file": "/Users/saad.khalid/Documents/agentic-kg-workshop/data/product_reviews/stockholm_chair_reviews.md",
+        "score": 0.4,
+        "reason": "Contains entities: part; Structured review data with ratings"
+      },
+      {
+        "file": "/Users/saad.khalid/Documents/agentic-kg-workshop/data/product_reviews/linkoping_bed_reviews.md",
+        "score": 0.4,
+        "reason": "Contains entities: part; Structured review data with ratings"
+      },
+      {
+        "file": "/Users/saad.khalid/Documents/agentic-kg-workshop/data/product_reviews/norrkoping_nightstand_reviews.md",
+        "score": 0.2,
+        "reason": "Structured review data with ratings"
+      },
+      {
+        "file": "/Users/saad.khalid/Documents/agentic-kg-workshop/data/product_reviews/jonkoping_coffee_table_reviews.md",
+        "score": 0.2,
+        "reason": "Structured review data with ratings"
+      },
+      {
+        "file": "/Users/saad.khalid/Documents/agentic-kg-workshop/data/product_reviews/orebro_lamp_reviews.md",
+        "score": 0.2,
+        "reason": "Structured review data with ratings"
+      },
+      {
+        "file": "/Users/saad.khalid/Documents/agentic-kg-workshop/data/product_reviews/vasteras_bookshelf_reviews.md",
+        "score": 0.2,
+        "reason": "Structured review data with ratings"
+      },
+      {
+        "file": "/Users/saad.khalid/Documents/agentic-kg-workshop/data/product_reviews/malmo_desk_reviews.md",
+        "score": 0.2,
+        "reason": "Structured review data with ratings"
+      },
+      {
+        "file": "/Users/saad.khalid/Documents/agentic-kg-workshop/data/product_reviews/gothenburg_table_reviews.md",
+        "score": 0.2,
+        "reason": "Structured review data with ratings"
+      },
+      {
+        "file": "/Users/saad.khalid/Documents/agentic-kg-workshop/data/product_reviews/helsingborg_dresser_reviews.md",
+        "score": 0.2,
+        "reason": "Structured review data with ratings"
+      },
+      {
+        "file": "/Users/saad.khalid/Documents/agentic-kg-workshop/data/product_reviews/uppsala_sofa_reviews.md",
+        "score": 0.2,
+        "reason": "Structured review data with ratings"
+      }
+    ],
+    "rejected_csv": [],
+    "rejected_text": [],
+    "selection_threshold": 0.15,
+    "total_selected": 15,
+    "total_rejected": 0
+  },
+  "construction_plan": {
+    "Product": {
+      "construction_type": "node",
+      "source_file": "products.csv",
+      "label": "Product",
+      "unique_column_name": "product_id",
+      "properties": [
+        "product_name",
+        "price",
+        "description"
+      ]
+    },
+    "Part": {
+      "construction_type": "node",
+      "source_file": "parts.csv",
+      "label": "Part",
+      "unique_column_name": "part_id",
+      "properties": [
+        "part_name",
+        "quantity"
+      ]
+    },
+    "Supplier": {
+      "construction_type": "node",
+      "source_file": "suppliers.csv",
+      "label": "Supplier",
+      "unique_column_name": "supplier_id",
+      "properties": [
+        "name",
+        "specialty",
+        "city",
+        "country",
+        "website",
+        "contact_email"
+      ]
+    },
+    "Assembly": {
+      "construction_type": "node",
+      "source_file": "assemblies.csv",
+      "label": "Assembly",
+      "unique_column_name": "assembly_id",
+      "properties": [
+        "assembly_name",
+        "quantity"
+      ]
+    },
+    "SUPPLIES": {
+      "construction_type": "relationship",
+      "source_file": "part_supplier_mapping.csv",
+      "relationship_type": "SUPPLIES",
+      "from_node_label": "Supplier",
+      "from_node_column": "supplier_id",
+      "to_node_label": "Part",
+      "to_node_column": "part_id",
+      "properties": []
+    },
+    "IS_PART_OF_1": {
+      "construction_type": "relationship",
+      "source_file": "parts.csv",
+      "relationship_type": "IS_PART_OF",
+      "from_node_label": "Part",
+      "from_node_column": "assembly_id",
+      "to_node_label": "Assembly",
+      "to_node_column": "assembly_id",
+      "properties": []
+    },
+    "CONTAINS_2": {
+      "construction_type": "relationship",
+      "source_file": "assemblies.csv",
+      "relationship_type": "CONTAINS",
+      "from_node_label": "Assembly",
+      "from_node_column": "product_id",
+      "to_node_label": "Product",
+      "to_node_column": "product_id",
+      "properties": []
+    }
+  },
+  "extraction_plan": {
+    "entity_types": [
+      "Product",
+      "Feature",
+      "Assembly",
+      "User",
+      "Rating",
+      "Issue",
+      "Part",
+      "Supplier"
+    ],
+    "fact_types": {
+      "has_issue": {
+        "subject_label": "Product",
+        "predicate_label": "has_issue",
+        "object_label": "Issue"
+      },
+      "includes_feature": {
+        "subject_label": "Product",
+        "predicate_label": "includes_feature",
+        "object_label": "Feature"
+      },
+      "reviewed_by": {
+        "subject_label": "Product",
+        "predicate_label": "reviewed_by",
+        "object_label": "User"
+      },
+      "has_rating": {
+        "subject_label": "Product",
+        "predicate_label": "has_rating",
+        "object_label": "Rating"
+      }
+    }
+  }
+}

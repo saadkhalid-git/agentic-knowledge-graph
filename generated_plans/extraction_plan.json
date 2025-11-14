@@ -1,0 +1,34 @@
+{
+  "entity_types": [
+    "Product",
+    "Feature",
+    "Assembly",
+    "User",
+    "Rating",
+    "Issue",
+    "Part",
+    "Supplier"
+  ],
+  "fact_types": {
+    "has_issue": {
+      "subject_label": "Product",
+      "predicate_label": "has_issue",
+      "object_label": "Issue"
+    },
+    "includes_feature": {
+      "subject_label": "Product",
+      "predicate_label": "includes_feature",
+      "object_label": "Feature"
+    },
+    "reviewed_by": {
+      "subject_label": "Product",
+      "predicate_label": "reviewed_by",
+      "object_label": "User"
+    },
+    "has_rating": {
+      "subject_label": "Product",
+      "predicate_label": "has_rating",
+      "object_label": "Rating"
+    }
+  }
+}

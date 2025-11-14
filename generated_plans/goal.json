@@ -1,0 +1,12 @@
+{
+  "type": "supply_chain",
+  "entities": [
+    "Product",
+    "Part",
+    "Supplier",
+    "Supplier"
+  ],
+  "domain": "e-commerce",
+  "insights": "quality_issues",
+  "description": "Build supply_chain graph with Product, Part, Supplier, Supplier"
+}
