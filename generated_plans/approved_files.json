@@ -22,7 +22,7 @@
     {
       "file": "/Users/saad.khalid/Documents/agentic-kg-workshop/data/part_supplier_mapping.csv",
       "score": 1.0,
-      "reason": "Filename contains entity 'supplier'; Has column related to 'supplier'; Filename contains entity 'part'; Has column related to 'part'; Contains ID columns: part_id, supplier_id; Appears to contain relationship data"
+      "reason": "Filename contains entity 'part'; Has column related to 'part'; Filename contains entity 'supplier'; Has column related to 'supplier'; Contains ID columns: part_id, supplier_id; Appears to contain relationship data"
     },
     {
       "file": "/Users/saad.khalid/Documents/agentic-kg-workshop/data/products.csv",

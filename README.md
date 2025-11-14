@@ -1,6 +1,6 @@
-# ADK-Enhanced Knowledge Graph Pipeline
+# Knowledge Graph System - PhD Exercise Solution
 
-Intelligent knowledge graph builder using Google's Agent Development Kit (ADK) with LLM-based validation and quality scoring.
+Multi-agent knowledge graph system that connects supply chain CSV data with customer review markdown files using Google's ADK and Neo4j.
 
 ## Quick Start
 

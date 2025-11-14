@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-Run the ADK-Enhanced Dynamic Knowledge Graph Pipeline
-Always regenerates the complete graph with full validation
+ADK-Enhanced Knowledge Graph Pipeline
+Main entry point for graph construction
 """
 
 import sys
@@ -10,8 +10,6 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 import asyncio
 from datetime import datetime
-
-# Import the ADK-enhanced builder
 from src.pipeline.adk_dynamic_builder import ADKDynamicKnowledgeGraphBuilder
 
 
@@ -111,9 +109,7 @@ def print_results(results: dict):
 
 
 async def main():
-    """Main entry point for the ADK pipeline - always regenerates complete graph."""
-
-    # Always show banner
+    """Main entry point for the ADK pipeline."""
     print_banner()
 
     print("🔄 Starting complete graph regeneration...")
@@ -124,25 +120,20 @@ async def main():
     print("4. Build complete knowledge graph")
     print("5. Validate quality at each step\n")
 
-    # Run the pipeline with fixed settings
     try:
-        # Create builder and run pipeline
-        # Always: reset=True, force_regenerate=True, validate_quality=True
         builder = ADKDynamicKnowledgeGraphBuilder(
-            data_dir=None,  # Use default data directory
-            llm_model="gpt-4o-mini"  # Use gpt-4o-mini for efficiency
+            data_dir=None,
+            llm_model="gpt-4o-mini"
         )
 
         results = await builder.build_complete_graph(
-            reset=True,  # Always reset the graph
-            force_regenerate_plans=True,  # Always regenerate all plans
-            limit_text_files=None,  # Process all text files
-            validate_quality=True  # Always validate quality
+            reset=True,
+            force_regenerate_plans=True,
+            limit_text_files=None,
+            validate_quality=True
         )
 
-        # Display results
         print_results(results)
-
         print("\n✅ Pipeline completed successfully!")
         print(f"📋 Results saved to: generated_plans/adk_pipeline_results.json")
 

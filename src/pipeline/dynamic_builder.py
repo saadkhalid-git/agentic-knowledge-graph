@@ -19,7 +19,7 @@ from src.agents.schema_agent import AutomatedSchemaAgent
 
 # Import execution agents
 from src.agents.structured_agent import AutomatedStructuredAgent
-from src.agents.unstructured_agent import AutomatedUnstructuredAgent
+from src.agents.unstructured_agent_direct import DirectUnstructuredAgent
 from src.agents.linkage_agent import AutomatedLinkageAgent
 
 # Import Neo4j utilities
@@ -47,7 +47,7 @@ class DynamicKnowledgeGraphBuilder:
 
         # Execution agents
         self.structured_agent = AutomatedStructuredAgent()
-        self.unstructured_agent = AutomatedUnstructuredAgent()
+        self.unstructured_agent = DirectUnstructuredAgent()
         self.linkage_agent = AutomatedLinkageAgent()
 
         # Data directory

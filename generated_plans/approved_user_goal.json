@@ -1,10 +1,10 @@
 {
   "kind_of_graph": "production management",
-  "description": "A comprehensive graph connecting Product, Supplier, Part. with relationships showing Links between part and supplier and mapping. Enhanced with customer reviews. to analyze quality issues, customer satisfaction. Optimizes production flow, quality control, and inventory management",
+  "description": "A comprehensive graph connecting Product, Part, Supplier. with relationships showing Links between part and supplier and mapping. Enhanced with customer reviews. to analyze quality issues, customer satisfaction. Optimizes production flow, quality control, and inventory management",
   "primary_entities": [
     "Product",
-    "Supplier",
-    "Part"
+    "Part",
+    "Supplier"
   ],
   "content_sources": [
     "customer reviews"

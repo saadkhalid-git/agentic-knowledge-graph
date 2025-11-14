@@ -1,12 +1,9 @@
 """
-Query Engine for ADK-Enhanced Knowledge Graph
-Answers complex business questions with traceability
+Query Engine for Knowledge Graph
 """
 
 import os
 import sys
-
-# Fix import path
 current_dir = os.path.dirname(os.path.abspath(__file__))
 parent_dir = os.path.dirname(current_dir)
 sys.path.insert(0, parent_dir)
@@ -15,11 +12,7 @@ from typing import Dict, List, Any, Optional, Tuple
 import json
 from dataclasses import dataclass
 from datetime import datetime
-
-# Neo4j connection
 from src.neo4j_for_adk import graphdb
-
-# LLM for natural language processing
 from openai import OpenAI
 from dotenv import load_dotenv
 
@@ -75,13 +68,15 @@ class KnowledgeGraphQueryEngine:
             "product_reviews": """
                 MATCH (p:Product)
                 WHERE toLower(p.product_name) CONTAINS toLower($product_name)
-                OPTIONAL MATCH (p)<-[:reviewed_by]-(u:User)
-                OPTIONAL MATCH (p)-[:has_rating]->(r:Rating)
-                OPTIONAL MATCH (p)-[:has_issue]->(i:Issue)
+                OPTIONAL MATCH (p)-[:REVIEWED_BY]->(u:User)
+                OPTIONAL MATCH (p)-[:HAS_RATING]->(r:Rating)
+                OPTIONAL MATCH (p)-[:HAS_ISSUE]->(i:Issue)
+                OPTIONAL MATCH (p)-[:INCLUDES_FEATURE]->(f:Feature)
                 RETURN p.product_name as product,
                        collect(DISTINCT u.id) as reviewers,
-                       collect(DISTINCT r.id) as ratings,
-                       collect(DISTINCT i.id) as issues
+                       collect(DISTINCT r.value) as ratings,
+                       collect(DISTINCT i.description) as issues,
+                       collect(DISTINCT f.description) as features
             """,
 
             "product_suppliers": """
@@ -168,7 +163,7 @@ class KnowledgeGraphQueryEngine:
         Convert this question to a Neo4j Cypher query.
 
         Available node labels: Product, Supplier, Part, Assembly, User, Rating, Issue, Feature
-        Available relationships: SUPPLIES, IS_PART_OF, CONTAINS, reviewed_by, has_rating, has_issue
+        Available relationships: SUPPLIES, IS_PART_OF, CONTAINS, REVIEWED_BY, HAS_RATING, HAS_ISSUE, INCLUDES_FEATURE
 
         Question: {question}
 
@@ -260,6 +255,7 @@ class KnowledgeGraphQueryEngine:
                 reviewers = data.get('reviewers', [])
                 ratings = data.get('ratings', [])
                 issues = data.get('issues', [])
+                features = data.get('features', [])
 
                 answer = f"Customer feedback for {product}:\n"
 
@@ -267,12 +263,18 @@ class KnowledgeGraphQueryEngine:
                     answer += f"• {len(reviewers)} customer reviews found\n"
 
                 if ratings:
-                    answer += f"• Ratings mentioned: {', '.join(ratings)}\n"
+                    # Format ratings nicely
+                    rating_strs = [str(r) if r else '' for r in ratings if r]
+                    if rating_strs:
+                        answer += f"• Ratings: {', '.join(rating_strs)}\n"
 
                 if issues:
-                    answer += f"• Issues reported: {', '.join(issues)}\n"
+                    answer += f"• Issues reported: {', '.join(issues[:5])}\n"  # Show first 5 issues
 
-                if not (reviewers or ratings or issues):
+                if features:
+                    answer += f"• Features praised: {', '.join(features[:5])}\n"  # Show first 5 features
+
+                if not (reviewers or ratings or issues or features):
                     answer = f"No customer reviews found for {product} in the system."
 
                 return answer.strip(), results

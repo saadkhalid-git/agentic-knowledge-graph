@@ -81,21 +81,42 @@ class AutomatedUnstructuredAgent:
         self.text_splitter = RegexTextSplitter("---")
         self.data_loader = MarkdownDataLoader()
 
-    def create_entity_extraction_prompt(self, context: str = "") -> str:
-        """Create a prompt for entity extraction."""
-        general_instructions = """
-        You are a top-tier algorithm designed for extracting
-        information in structured formats to build a knowledge graph.
+    def create_entity_extraction_prompt(self, entity_types: List[str] = None, fact_types: Dict[str, Dict[str, str]] = None) -> str:
+        """Create a prompt for entity extraction with specific entity types."""
 
-        Extract the entities (nodes) and specify their type from the following text.
-        Also extract the relationships between these nodes.
+        # Build schema section with specific types
+        schema_section = ""
+        if entity_types:
+            schema_section += f"Node Types: {', '.join(entity_types)}\n"
+
+        if fact_types:
+            rel_specs = []
+            for rel_name, spec in fact_types.items():
+                rel_specs.append(f"- {spec['subject_label']} -{rel_name.upper()}-> {spec['object_label']}")
+            schema_section += "Relationships:\n" + "\n".join(rel_specs)
+
+        general_instructions = f"""
+        You are extracting information from product reviews to build a knowledge graph.
+
+        IMPORTANT: Extract ONLY these entity types from the text:
+        {schema_section}
+
+        For product reviews, focus on:
+        - Product: The product being reviewed (e.g., "Malmo Desk", "Stockholm Chair")
+        - User: The reviewer's username (e.g., "@wfh_warrior", "@modern_minimalist")
+        - Rating: Star ratings mentioned (e.g., "5-star", "4/5", "★★★★★")
+        - Issue: Problems or complaints (e.g., "wobbly legs", "assembly confusion", "color mismatch")
+        - Feature: Positive aspects or features (e.g., "cable management", "storage solutions", "ergonomic design")
 
         Return result as JSON using the following format:
-        {{"nodes": [ {{"id": "0", "label": "Person", "properties": {{"name": "John"}} }}],
-        "relationships": [{{"type": "KNOWS", "start_node_id": "0", "end_node_id": "1", "properties": {{"since": "2024-08-01"}} }}] }}
+        {{"nodes": [ {{"id": "0", "label": "Product", "properties": {{"name": "Malmo Desk"}} }}],
+        "relationships": [{{"type": "REVIEWED_BY", "start_node_id": "0", "end_node_id": "1", "properties": {{}} }}] }}
 
-        Use only the following node and relationship types (if provided):
-        {schema}
+        CRITICAL RULES:
+        - Use EXACT label names from the list above (Product, User, Rating, Issue, Feature)
+        - Extract actual usernames with @ symbol if present
+        - Identify specific issues and features mentioned
+        - Create relationships between entities (e.g., Product -HAS_ISSUE-> Issue)
 
         Assign a unique ID (string) to each node, and reuse it to define relationships.
         Do respect the source and target node types for relationship and
@@ -108,14 +129,8 @@ class AutomatedUnstructuredAgent:
         - Property names must be enclosed in double quotes
         """
 
-        if context:
-            context_section = f"""
-            Consider the following context to help identify entities and relationships:
-            <context>
-            {context}
-            </context>"""
-        else:
-            context_section = ""
+        # No context section needed for this extraction
+        context_section = ""
 
         input_section = """
         Input text:
@@ -151,10 +166,13 @@ class AutomatedUnstructuredAgent:
     def create_kg_pipeline(
         self,
         file_path: str,
-        entity_schema: Dict[str, Any]
+        entity_schema: Dict[str, Any],
+        entity_types: List[str] = None,
+        fact_types: Dict[str, Dict[str, str]] = None
     ) -> SimpleKGPipeline:
         """Create a knowledge graph extraction pipeline for a file."""
-        prompt = self.create_entity_extraction_prompt()
+        # Create prompt with specific entity types
+        prompt = self.create_entity_extraction_prompt(entity_types, fact_types)
 
         # Create pipeline
         pipeline = SimpleKGPipeline(
@@ -173,14 +191,16 @@ class AutomatedUnstructuredAgent:
     async def process_file(
         self,
         file_path: str,
-        entity_schema: Dict[str, Any]
+        entity_schema: Dict[str, Any],
+        entity_types: List[str] = None,
+        fact_types: Dict[str, Dict[str, str]] = None
     ) -> Dict[str, Any]:
         """Process a single file to extract entities and relationships."""
         try:
             print(f"    📄 Processing: {os.path.basename(file_path)}")
 
-            # Create pipeline for this file
-            kg_pipeline = self.create_kg_pipeline(file_path, entity_schema)
+            # Create pipeline for this file with entity types
+            kg_pipeline = self.create_kg_pipeline(file_path, entity_schema, entity_types, fact_types)
 
             # Run the pipeline
             results = await kg_pipeline.run_async(file_path=str(file_path))
@@ -226,7 +246,8 @@ class AutomatedUnstructuredAgent:
             # Add import_dir if provided
             full_path = os.path.join(import_dir, file_path) if import_dir else file_path
 
-            result = await self.process_file(full_path, entity_schema)
+            # Pass entity types and fact types for proper extraction
+            result = await self.process_file(full_path, entity_schema, entity_types, fact_types)
 
             if result["status"] == "success":
                 results["files_processed"].append(file_path)
@@ -237,6 +258,9 @@ class AutomatedUnstructuredAgent:
         # Get statistics
         stats = self.get_graph_statistics()
         results.update(stats)
+
+        # Post-process to fix entity types
+        self.post_process_entities(entity_types)
 
         # Create indexes
         self.create_text_indexes()
@@ -282,6 +306,85 @@ class AutomatedUnstructuredAgent:
             stats['document_count'] = doc_stats['query_result'][0].get('document_count', 0)
 
         return stats
+
+    def post_process_entities(self, entity_types: List[str]) -> None:
+        """Post-process entities to ensure they have correct labels."""
+        print("  🔧 Post-processing entity labels...")
+
+        # For each expected entity type, try to identify and label nodes
+        for entity_type in entity_types:
+            if entity_type == "Product":
+                # Find Product entities (they usually have product names)
+                query = """
+                MATCH (n:__Entity__)
+                WHERE n.id =~ '(?i).*(desk|chair|sofa|table|dresser|lamp|bookshelf|nightstand|bed).*'
+                   OR n.name =~ '(?i).*(desk|chair|sofa|table|dresser|lamp|bookshelf|nightstand|bed).*'
+                SET n:Product
+                RETURN count(n) as updated
+                """
+                result = graphdb.send_query(query)
+                if result['status'] == 'success' and result['query_result']:
+                    count = result['query_result'][0]['updated']
+                    if count > 0:
+                        print(f"      Added Product label to {count} entities")
+
+            elif entity_type == "User":
+                # Find User entities (usernames with @ or reviewer patterns)
+                query = """
+                MATCH (n:__Entity__)
+                WHERE n.id =~ '@.*' OR n.id =~ '.*reviewer.*' OR n.id =~ '.*user.*'
+                SET n:User
+                RETURN count(n) as updated
+                """
+                result = graphdb.send_query(query)
+                if result['status'] == 'success' and result['query_result']:
+                    count = result['query_result'][0]['updated']
+                    if count > 0:
+                        print(f"      Added User label to {count} entities")
+
+            elif entity_type == "Rating":
+                # Find Rating entities (star ratings)
+                query = """
+                MATCH (n:__Entity__)
+                WHERE n.id =~ '.*star.*' OR n.id =~ '.*★.*' OR n.id =~ '[1-5]/5'
+                SET n:Rating
+                RETURN count(n) as updated
+                """
+                result = graphdb.send_query(query)
+                if result['status'] == 'success' and result['query_result']:
+                    count = result['query_result'][0]['updated']
+                    if count > 0:
+                        print(f"      Added Rating label to {count} entities")
+
+            elif entity_type == "Issue":
+                # Find Issue entities (problems, issues, complaints)
+                query = """
+                MATCH (n:__Entity__)
+                WHERE n.id =~ '(?i).*(issue|problem|complaint|defect|broken|wobbl|scratch|damage).*'
+                   OR n.description =~ '(?i).*(issue|problem|complaint|defect|broken|wobbl|scratch|damage).*'
+                SET n:Issue
+                RETURN count(n) as updated
+                """
+                result = graphdb.send_query(query)
+                if result['status'] == 'success' and result['query_result']:
+                    count = result['query_result'][0]['updated']
+                    if count > 0:
+                        print(f"      Added Issue label to {count} entities")
+
+            elif entity_type == "Feature":
+                # Find Feature entities (positive features)
+                query = """
+                MATCH (n:__Entity__)
+                WHERE n.id =~ '(?i).*(feature|quality|design|comfort|storage|management|system).*'
+                   OR n.description =~ '(?i).*(feature|quality|design|comfort|storage|management|system).*'
+                SET n:Feature
+                RETURN count(n) as updated
+                """
+                result = graphdb.send_query(query)
+                if result['status'] == 'success' and result['query_result']:
+                    count = result['query_result'][0]['updated']
+                    if count > 0:
+                        print(f"      Added Feature label to {count} entities")
 
     def create_text_indexes(self) -> Dict[str, Any]:
         """Create text indexes for efficient search on chunks."""

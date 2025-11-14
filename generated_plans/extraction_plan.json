@@ -1,11 +1,11 @@
 {
   "entity_types": [
     "Product",
-    "Feature",
     "Assembly",
     "User",
     "Rating",
     "Issue",
+    "Feature",
     "Part",
     "Supplier"
   ],
