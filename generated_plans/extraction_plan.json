@@ -1,13 +1,13 @@
 {
   "entity_types": [
-    "Product",
     "Assembly",
     "User",
     "Rating",
-    "Issue",
-    "Feature",
+    "Product",
+    "Supplier",
     "Part",
-    "Supplier"
+    "Feature",
+    "Issue"
   ],
   "fact_types": {
     "has_issue": {

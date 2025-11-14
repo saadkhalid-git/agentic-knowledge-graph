@@ -2,10 +2,10 @@
   "generated_plans": {
     "goal": {
       "kind_of_graph": "production management",
-      "description": "A comprehensive graph connecting Product, Part, Supplier. with relationships showing Links between part and supplier and mapping. Enhanced with customer reviews. to analyze quality issues, customer satisfaction. Optimizes production flow, quality control, and inventory management",
+      "description": "A comprehensive graph connecting Part, Product, Supplier. with relationships showing Links between part and supplier and mapping. Enhanced with customer reviews. to analyze quality issues, customer satisfaction. Optimizes production flow, quality control, and inventory management",
       "primary_entities": [
-        "Product",
         "Part",
+        "Product",
         "Supplier"
       ],
       "content_sources": [
@@ -200,14 +200,14 @@
     },
     "extraction_plan": {
       "entity_types": [
-        "Product",
         "Assembly",
         "User",
         "Rating",
-        "Issue",
-        "Feature",
+        "Product",
+        "Supplier",
         "Part",
-        "Supplier"
+        "Feature",
+        "Issue"
       ],
       "fact_types": {
         "has_issue": {
@@ -235,37 +235,62 @@
   },
   "validation_results": {
     "goal_validation": {
-      "score": 85,
+      "score": 78,
       "suggestions": [
-        "Clarify the relationships between Product, Part, and Supplier, such as defining how they interact and the specific types of links (e.g., 'supplies', 'contains').",
-        "Consider including other relevant entities that may impact production management, such as 'Manufacturing Process', 'Inventory', or 'Distribution'.",
-        "Specify how the customer reviews will be integrated into the graph, such as whether they will be linked to specific products or suppliers."
+        "Clarify and refine the relationships between entities in the graph, specifying how 'Part', 'Product', and 'Supplier' interconnect.",
+        "Expand the scope of content sources beyond just customer reviews; include production data, supplier reliability metrics, and inventory levels for a more holistic view.",
+        "Make sure to define how insights regarding quality issues and customer satisfaction will be generated from the knowledge graph.",
+        "Consider adding more primary entities related to production management such as 'Warehouse', 'Order', 'Customer', etc., to provide a more exhaustive analysis."
       ],
       "improvements": [
-        "Incorporate metrics for evaluating the success of the knowledge graph\u2014a performance score indicating how well it meets the defined production management goals.",
-        "Explore additional data sources that could enhance insights, such as sales data, inventory levels, or production metrics.",
-        "Define specific scenarios in which the insights will be applied or how they will facilitate decision-making in production management."
+        "Incorporate real-time data inputs to enhance the actionable insights derived from the knowledge graph.",
+        "Utilize statistical methods or AI analytics within the knowledge graph structure to better address quality control and inventory management.",
+        "Ensure there is a clear strategy for how the insights will be practically applied in production optimization."
       ]
     },
     "file_selection_validation": {
-      "score": 80,
+      "score": 0.76,
+      "relevant_files": [
+        "/Users/saad.khalid/Documents/agentic-kg-workshop/data/part_supplier_mapping.csv",
+        "/Users/saad.khalid/Documents/agentic-kg-workshop/data/products.csv",
+        "/Users/saad.khalid/Documents/agentic-kg-workshop/data/parts.csv",
+        "/Users/saad.khalid/Documents/agentic-kg-workshop/data/suppliers.csv",
+        "/Users/saad.khalid/Documents/agentic-kg-workshop/data/assemblies.csv",
+        "/Users/saad.khalid/Documents/agentic-kg-workshop/data/product_reviews/stockholm_chair_reviews.md",
+        "/Users/saad.khalid/Documents/agentic-kg-workshop/data/product_reviews/linkoping_bed_reviews.md",
+        "/Users/saad.khalid/Documents/agentic-kg-workshop/data/product_reviews/norrkoping_nightstand_reviews.md",
+        "/Users/saad.khalid/Documents/agentic-kg-workshop/data/product_reviews/jonkoping_coffee_table_reviews.md",
+        "/Users/saad.khalid/Documents/agentic-kg-workshop/data/product_reviews/orebro_lamp_reviews.md",
+        "/Users/saad.khalid/Documents/agentic-kg-workshop/data/product_reviews/vasteras_bookshelf_reviews.md",
+        "/Users/saad.khalid/Documents/agentic-kg-workshop/data/product_reviews/malmo_desk_reviews.md",
+        "/Users/saad.khalid/Documents/agentic-kg-workshop/data/product_reviews/gothenburg_table_reviews.md",
+        "/Users/saad.khalid/Documents/agentic-kg-workshop/data/product_reviews/helsingborg_dresser_reviews.md",
+        "/Users/saad.khalid/Documents/agentic-kg-workshop/data/product_reviews/uppsala_sofa_reviews.md"
+      ],
+      "missing_data_types": [
+        "Links between parts and suppliers beyond mapping",
+        "Detailed insights into quality issues and customer satisfaction from reviews",
+        "More comprehensive product data including detailed attributes"
+      ],
       "suggestions": [
-        "```json\n{\n  \"score\": 0.64,\n  \"relevant_files\": [\n    \"/Users/saad.khalid/Documents/agentic-kg-workshop/data/part_supplier_mapping.csv\",\n    \"/Users/saad.khalid/Documents/agentic-kg-workshop/data/products.csv\",\n    \"/Users/saad.khalid/Documents/agentic-kg-workshop/data/parts.csv\",\n    \"/Users/saad.khalid/Documents/agentic-kg-workshop/data/suppliers.csv\",\n    \"/Users/saad.khalid/Documents/agentic-kg-workshop/data/assemblies.csv\",\n    \"/Users/saad.khalid/Documents/agentic-kg-workshop/data/product_reviews/stockholm_chair_reviews.md\",\n    \"/Users/saad.khalid/Documents/agentic-kg-workshop/data/product_reviews/linkoping_bed_reviews.md\",\n    \"/Users/saad.khalid/Documents/agentic-kg-workshop/data/product_reviews/norrkoping_nightstand_reviews.md\",\n    \"/Users/saad.khalid/Documents/agentic-kg-workshop/data/product_reviews/jonkoping_coffee_table_reviews.md\",\n    \"/Users/saad.khalid/Documents/agentic-kg-workshop/data/product_reviews/orebro_lamp_reviews.md\",\n    \"/Users/saad.khalid/Documents/agentic-kg-workshop/data/product_reviews/vasteras_bookshelf_reviews.md\",\n    \"/Users/saad.khalid/Documents/agentic-kg-workshop/data/product_reviews/malmo_desk_reviews.md\",\n    \"/Users/saad.khalid/Documents/agentic-kg-workshop/data/product_reviews/gothenburg_table_reviews.md\",\n    \"/Users/saad.khalid/Documents/agentic-kg-workshop/data/product_reviews/helsingborg_dresser_reviews.md\",\n    \"/Users/saad.khalid/Documents/agentic-kg-workshop/data/product_reviews/uppsala_sofa_reviews.md\"\n  ],\n  \"missing_data_types\": [\n    \"detailed quality metrics\",\n    \"inventory levels\",\n    \"production flow data\"\n  ],\n  \"suggestions\": [\n    \"Include inventory management data to link products, parts, and suppliers.\",\n    \"Add data on production flow to optimize production efficiency.\",\n    \"Capture more detailed quality metrics from customer reviews to enhance analysis.\"\n  ]\n}\n```"
+        "Enhance the mapping between parts and suppliers to include specific relationships and relevance.",
+        "Include additional metadata or detailed assessments about quality issues and customer satisfaction, extracting more structured insight from reviews.",
+        "Incorporate further data sources or attributes related to the products for better analysis, such as production timelines, inventory levels, or sales data."
       ]
     },
     "schema_validation": {
       "score": 85,
       "suggestions": [
-        "```json\n{\n  \"score\": 75,\n  \"missing_relationships\": [\n    {\n      \"from\": \"Assembly\",\n      \"to\": \"Product\",\n      \"expected\": \"An assembly may consist of multiple products directly.\"\n    },\n    {\n      \"from\": \"Supplier\",\n      \"to\": \"Product\",\n      \"expected\": \"A supplier can supply multiple products.\"\n    }\n  ],\n  \"improvements\": [\n    \"Consider defining a relationship between Assembly and Product to capture the assemblies that directly involve products.\",\n    \"Add a relationship from Supplier to Product to reflect the supply chain more accurately.\",\n    \"Ensure that every product linked to an assembly is provided by a supplier.\"\n  ],\n  \"warnings\": [\n    \"Check the normalization for properties; supplier's contact email should also consider data validation (format check).\",\n    \"Ensure that part and assembly IDs accurately reflect their relationships and are not overlapping.\"\n  ]\n}\n```"
+        "```json\n{\n  \"score\": 75,\n  \"missing_relationships\": [\n    \"Assembly to Supplier relationship (who supplies the assembly)\",\n    \"Part to Supplier relationship (who supplies the part)\",\n    \"Assembly may include Ratings or Reviews for performance\"\n  ],\n  \"improvements\": [\n    \"Consider explicitly defining relationships for Part to Product and Assembly to Product\",\n    \"Evaluate the potential need for additional entities like User and Issue to have more detailed relationships with Product\",\n    \"Ensure that part_id and assembly_id are correctly managed if they are required as foreign keys in various relationships\"\n  ],\n  \"warnings\": [\n    \"Check if product_id, assembly_id, and part_id are unique across respective tables and not overlapping\",\n    \"Ensure the properties in each node are sufficient for clarity and functionality\",\n    \"Validate the entity extraction process for completeness and accuracy to avoid data quality issues\"\n  ]\n}\n```"
       ]
     }
   },
   "quality_metrics": {
-    "quality_score": 77,
-    "orphan_nodes": 105,
-    "connectivity_ratio": 0.6440677966101694,
+    "quality_score": 78,
+    "orphan_nodes": 112,
+    "connectivity_ratio": 0.6574923547400612,
     "node_types": 8,
     "relationship_types": 5
   },
-  "timestamp": "2025-11-14T12:52:16.714742"
+  "timestamp": "2025-11-14T13:54:50.632821"
 }
